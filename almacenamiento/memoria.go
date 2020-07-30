@@ -58,3 +58,20 @@ func (referencia *Memoria) Quitar(ID int) error {
 	delete(referencia.Personas, ID)
 	return nil
 }
+func (referencia *Memoria) ObtenerID(ID int) (modelo.Persona, error) {
+	persona, ok := referencia.Personas[ID]
+	if !ok {
+		return persona, fmt.Errorf("ID: %d :%w", ID, modelo.ErrorIDPersonaNoExiste)
+	}
+	return persona, nil
+}
+
+//funcion obtener todas las personas
+
+func (referencia *Memoria) ObternerTodos() (modelo.Personas, error) {
+	var resultado modelo.Personas
+	for _, valor := range referencia.Personas {
+		resultado = append(resultado, valor)
+	}
+	return resultado, nil
+}
