@@ -10,8 +10,7 @@ type Comunidades []Comunidad
 type Persona struct {
 	Nombre      string      `json:"nombre"`
 	Edad        uint8       `json:"edad"`
-	comunidades Comunidades `json:"comunidades"` //comunidades de tipo comunidades
-
+	Comunidades Comunidades `json:"comunidades"`
 }
 
 //slice de perona tipo de dato
