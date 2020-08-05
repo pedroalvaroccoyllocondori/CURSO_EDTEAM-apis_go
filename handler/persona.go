@@ -129,6 +129,40 @@ func (p *persona) quitar(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (p *persona) obtenerID(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		respuesta := nuevaRespuesta(Error, "Método no permitido", nil)
+		respuestaJSON(w, http.StatusBadRequest, respuesta)
+		return
+	}
+
+	ID, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil {
+
+		respuesta := nuevaRespuesta(Error, "El id debe ser un número entero positivo", nil)
+		respuestaJSON(w, http.StatusBadRequest, respuesta)
+		return
+	}
+
+	data, err := p.almacenamiento.ObtenerID(ID)
+	if errors.Is(err, modelo.ErrorIDPersonaNoExiste) {
+
+		respuesta := nuevaRespuesta(Error, "El ID de la persona no existe", nil)
+		respuestaJSON(w, http.StatusBadRequest, respuesta)
+
+		return
+	}
+	if err != nil {
+
+		respuesta := nuevaRespuesta(Error, "Ocurrió un error al elminar el registro", nil)
+		respuestaJSON(w, http.StatusInternalServerError, respuesta)
+		return
+	}
+
+	respuesta := nuevaRespuesta(Mensaje, "ok", data)
+	respuestaJSON(w, http.StatusOK, respuesta)
+}
+
 func (p *persona) obtenerTodos(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 
