@@ -21,6 +21,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	handler.RutaPersona(mux, &almacen)
+	handler.RutaLogin(mux, &almacen)
 	log.Printf("servidor iniciado en el puerto 8080")
 	err = http.ListenAndServe(":8080", mux) //funcion que devuelve un error
 	if err != nil {

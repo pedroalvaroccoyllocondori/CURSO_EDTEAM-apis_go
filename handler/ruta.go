@@ -16,3 +16,11 @@ func RutaPersona(mux *http.ServeMux, almacenamiento Almacenamiento) {
 	mux.HandleFunc("/v1/personas/obtener-todos", middleware.Log(h.obtenerTodos))
 
 }
+
+//rutas para rutas del login
+
+func RutaLogin(mux *http.ServeMux, almacenamiento Almacenamiento) {
+	h := NuevoLogin(almacenamiento)
+	mux.HandleFunc("/v1/login", h.login)
+
+}
