@@ -3,6 +3,8 @@ package middleware
 import (
 	"log"
 	"net/http"
+
+	"github.com/pedroalvaroccoyllocondori/apis_go/autorizacion"
 )
 
 func Log(funcion func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
@@ -16,7 +18,8 @@ func Log(funcion func(http.ResponseWriter, *http.Request)) func(http.ResponseWri
 func Autentificacion(funcion func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Authorization")
-		if token != "un-token-seguro" {
+		_, err := autorizacion.ValidarToken(token)
+		if err != nil {
 			//devolver una respuesta
 			prohibido(w, r)
 			return
